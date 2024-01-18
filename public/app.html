@@ -5,27 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="jquery.js"></script>
-    <title>Document</title>
+    <title>Database GUI</title>
     <link rel="stylesheet" href="./leftbar.css">
     <link rel="stylesheet" href="./content.css">
-    <style></style>
+
 </head>
 
 <body>
-    <div id="leftbar_menu">
+    <!--Menu with database manipulation funcionalities. -->
+    <div id="leftbar_container">
+        <!-- Simple profile information in the case of login, with a image and username. -->
         <div id="profile_information">
             <div>
                 <img src="https://placehold.co/40">
                 <span id="userName">Batata</span>
             </div>
         </div>
-        <div id="leftbar_options">
-            <div id="new_db" class="button">
-                CREATE DATABASE
+
+        <!-- The leftbar content, with a button to create a new database and select the others. -->
+        <div id="leftbar_content">
+            <!-- Databases that were already created. -->
+            <div id="db_container">
+
             </div>
 
+            <!-- Button to create a new DB. -->
+            <div id="create_db">
+                <span>
+                    CREATE DB
+                </span>
+
+                <!-- Tooltip that is going to be shown when clicking on the Create DB span. -->
+
+                <div>
+                    <input type="text" id="db_name_input" placeholder="INSERT NAME">
+                    <button id="db_confirm">OK</button>
+                </div>
+
+            </div>
         </div>
     </div>
+
     <div id="content">
         a
     </div>
