@@ -1,8 +1,14 @@
 $(document).ready(function () {
-    $('#new_db').click(function (e) { 
+    $('#create_db span').click(function (e) {
         e.preventDefault();
-        var newParagraph = $('<div>').text('TABLE').addClass('button').attr('id','database');
-        $('#leftbar_options').prepend(newParagraph);
-        
+        $('#create_db div').slideToggle();
+
+    });
+    $('#db_confirm').click(function (e) {
+        let input = $('#db_name_input').val();
+        var database = $('<div>').text(input).addClass('button database');
+
+        $('#db_container').append(database.hide().fadeIn(1000));
+        $('#create_db div').slideToggle();
     });
 });
