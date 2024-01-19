@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="jquery.js"></script>
+    <script src="jquery.terminal.js"></script>
     <title>Database GUI</title>
     <link rel="stylesheet" href="./leftbar.css">
     <link rel="stylesheet" href="./content.css">
-
+    <link rel="stylesheet" href="./jquery.terminal.css">
 </head>
 
 <body>
@@ -36,7 +37,6 @@
                 </span>
 
                 <!-- Tooltip that is going to be shown when clicking on the Create DB span. -->
-
                 <div>
                     <input type="text" id="db_name_input" placeholder="INSERT NAME">
                     <button id="db_confirm">OK</button>
@@ -47,7 +47,8 @@
     </div>
 
     <div id="content">
-        a
+        <div id="table_container"></div>
+        <div id="terminal"></div>
     </div>
 
 
