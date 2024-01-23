@@ -9,8 +9,6 @@ $(function () {
         }
     })
 
-    getTables('db_league');
-
     //Makes the input field to the name of the new database toggle between visible and hidden.
     $('#create_db span').on('click', function (e) {
         $('#create_db div').slideToggle();
@@ -30,6 +28,7 @@ $(function () {
             console.log('Success:', response);
             $('#db_container').append(database.hide().fadeIn(1000));
             $('#create_db div').slideToggle();
+            $('#db_name_input').val('');
 
         }).fail(function (error) {
             //If it wasn't successful, prints the error message on the termina.
@@ -75,8 +74,8 @@ function createDB(name) {
     return database;
 }
 
+//Post request to get all the tables from the current database.
 function getTables(database) {
-    // Gets all the created tables.
     $.post('/api/query', { query: 'SHOW TABLES', databaseName: database }, function (response) {
         $('#table_bar').find('div').remove();
         for (let i = 0; i < response.length; i++) {
@@ -90,8 +89,7 @@ function getTables(database) {
 
             table.append(table_name_span);
 
-            $('#table_bar').append(table);
-
+            $('#table_bar').append(table.hide().fadeIn(1000));
         }
     });
 }
