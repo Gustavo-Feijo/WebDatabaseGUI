@@ -23,26 +23,22 @@
             </div>
         </div>
 
-        <!-- The leftbar content, with a button to create a new database and select the others. -->
-        <div id="leftbar_content">
-            <!-- Databases that were already created. -->
-            <div id="db_container">
 
+        <!-- Databases that were already created. -->
+        <div id="db_container"></div>
+
+        <!-- Button to create a new DB. -->
+        <div id="create_db">
+            <span>
+                CREATE DB
+            </span>
+
+            <!-- Tooltip that is going to be shown when clicking on the Create DB span. -->
+            <div>
+                <input type="text" id="db_name_input" placeholder="INSERT NAME">
+                <button id="db_confirm">OK</button>
             </div>
 
-            <!-- Button to create a new DB. -->
-            <div id="create_db">
-                <span>
-                    CREATE DB
-                </span>
-
-                <!-- Tooltip that is going to be shown when clicking on the Create DB span. -->
-                <div>
-                    <input type="text" id="db_name_input" placeholder="INSERT NAME">
-                    <button id="db_confirm">OK</button>
-                </div>
-
-            </div>
         </div>
     </div>
 
