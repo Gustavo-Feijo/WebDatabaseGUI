@@ -12,7 +12,6 @@ class databaseOperations {
 
             //Executes the query on the connection.
             const [result, fields] = await connection.execute(query);
-            connection.end();
 
             //Returns the result of the query to the server.
             return result;
@@ -34,6 +33,30 @@ class databaseOperations {
 
             return result;
         } catch (err) {
+            throw err.message;
+        }
+    }
+
+    //Most simple method, receive a query string and a optional database name.
+    async getFields(table, databaseName = null) {
+
+        try {
+            //Creates the connection. If there is a database selected on the front, runs the query on there.
+            const connection = await createConnection(databaseName);
+
+            //Executes the query on the connection.
+            const [rows, fields] = await connection.execute('DESCRIBE ' + table);
+            const columnTypes = {};
+
+            rows.forEach(row => {
+                columnTypes[row.Field] = row.Type;
+            });
+            connection.end();
+
+            return columnTypes;
+
+        } catch (err) {
+            //If there is any error, throws it to the server call.
             throw err.message;
         }
     }

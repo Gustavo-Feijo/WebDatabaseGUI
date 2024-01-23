@@ -26,6 +26,7 @@ app.post('/api/query', async (req, res) => {
     try {
         //Get the query string from the request and checks if it's not empty
         //Get the database name if one was specified.
+
         const query = req.body.query;
         const databaseName = req.body.databaseName || null;
 
@@ -36,6 +37,7 @@ app.post('/api/query', async (req, res) => {
         //Creates a instance of the DB operations and calls the runQuery method.
         const DB = new databaseOperations();
         const result = await DB.runQuery(query, databaseName);
+
         //Send the result to the client.
         res.status(200).json(result);
 
@@ -59,6 +61,29 @@ app.post('/api/create', async (req, res) => {
         //Creates a instance of the DB operations and call the createDatabase.
         const DB = new databaseOperations();
         const result = await DB.createDatabase(db_name);
+
+        res.status(200).json(result);
+
+    } catch (error) {
+        console.log('Error creating DB:', error);
+        res.status(400).json({ error: error });
+    }
+});
+
+//Receives a post request with a custom DB Name.
+app.post('/api/fields', async (req, res) => {
+    try {
+        //Get the db name from the request and checks if it's not empty.
+        const table = req.body.table;
+        const db_name = req.body.databaseName;
+
+        if (!table) {
+            return res.status(400).json({ error: 'Missing or empty name parameter' });
+        }
+
+        //Creates a instance of the DB operations and call the createDatabase.
+        const DB = new databaseOperations();
+        const result = await DB.getFields(table, db_name);
 
         res.status(200).json(result);
 

@@ -5,11 +5,11 @@ $(function () {
     //Gets all the created databases.
     $.post('/api/query', { query: 'SHOW DATABASES' }, function (response) {
         for (i in response) {
-            console.log(response[i]);
             $('#db_container').append(createDB(response[i].Database).hide().fadeIn(1000));
         }
     })
 
+    getTables('db_league');
 
     //Makes the input field to the name of the new database toggle between visible and hidden.
     $('#create_db span').on('click', function (e) {
@@ -70,6 +70,28 @@ function createDB(name) {
 
         //Adds the selection to the new selected database.
         $(this).addClass('selected');
+        getTables(currentDatabase);
     })
     return database;
+}
+
+function getTables(database) {
+    // Gets all the created tables.
+    $.post('/api/query', { query: 'SHOW TABLES', databaseName: database }, function (response) {
+        $('#table_bar').find('div').remove();
+        for (let i = 0; i < response.length; i++) {
+            const tableName = response[i]["Tables_in_" + database];
+
+            var table = $('<div>').addClass('table').on('click', function (e) {
+                $('#table_bar .selected').removeClass('selected');
+                $(this).addClass('selected');
+            });
+            var table_name_span = $('<span>').text(tableName).addClass('table_name');
+
+            table.append(table_name_span);
+
+            $('#table_bar').append(table);
+
+        }
+    });
 }
