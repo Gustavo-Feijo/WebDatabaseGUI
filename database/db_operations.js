@@ -12,6 +12,7 @@ class databaseOperations {
 
             //Executes the query on the connection.
             const [result, fields] = await connection.execute(query);
+            connection.end();
 
             //Returns the result of the query to the server.
             return result;

@@ -56,13 +56,32 @@
 }
 
 #table_content {
-    width: 100%;
-    height: 100%;
-    background-color: wheat;
+    display: table;
+    table-layout: fixed;
+    font-size: 12px;
+
 }
 
-#table_fields {
-    width: 220px;
-    background-color: red;
-    height: 100%;
+#table_fields th {
+    padding: 20px;
+    color: wheat;
+    border: 1px solid #585656;
+}
+
+#table_data td {
+    padding: 20px;
+    color: wheat;
+    border: 1px solid #585656;
+    text-align: center;
+}
+
+.field_header {
+    display: flex;
+    flex-direction: column;
+}
+
+#table_wrapper {
+    height: calc(100% - 72px);
+    width: 100%;
+    overflow: scroll;
 }
