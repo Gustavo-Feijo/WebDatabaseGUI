@@ -1,4 +1,7 @@
 let currentDatabase;
+var term;
+
+//onLoad function.
 $(function () {
 
     //Makes the input field to the name of the new database toggle between visible and hidden.
@@ -6,7 +9,7 @@ $(function () {
         $('#create_db div').slideToggle();
     });
 
-    //Gets all the created databases.
+    //Gets all the already existing databases and adds them to the screen.
     postQuery("SHOW DATABASES").done(
         function (response) {
             for (i in response) {
@@ -30,13 +33,11 @@ $(function () {
             $('#db_name_input').val('');
 
         }).fail(function (error) {
-            //If it wasn't successful, prints the error message on the termina.
-            const errorMessage = JSON.parse(error.responseText);
-            term.echo('[[;red;]' + errorMessage.error)
+            printErrorOnTerminal(error);
         });
     });
 
-    var term = $('#terminal').terminal(function (command) {
+    term = $('#terminal').terminal(function (command) {
 
         //Get's the command input of the terminal and post it as a query string.
         postQuery(command, currentDatabase).done(
@@ -44,8 +45,7 @@ $(function () {
                 console.log('Success:', response);
             })
             .fail(function (error) {
-                const errorMessage = JSON.parse(error.responseText);
-                term.echo('[[;red;]' + errorMessage.error)
+                printErrorOnTerminal(error);
             });
 
     }, {
@@ -111,9 +111,7 @@ function getTables(database) {
             }
         })
         .fail(function (error) {
-            //If it wasn't successful, prints the error message on the terminal.
-            const errorMessage = JSON.parse(error.responseText);
-            term.echo('[[;red;]' + errorMessage.error)
+            printErrorOnTerminal(error);
         })
 }
 
@@ -121,45 +119,56 @@ function getTableData(table) {
     $('#table_fields').empty();
     $('#table_data').empty();
 
-    postQuery(`DESCRIBE ${table}`, currentDatabase).done(
-        function (response) {
-            $('#table_fields').append($('<tr>'));
-            var tableHeader = $('#table_fields tr');
+    //Call the post request to post a query to the server.
+    //Posts a Describe query to get the fields and it's corresponding types.
+    postQuery(`DESCRIBE ${table}`, currentDatabase)
+        .done(function (response) {
+
+            //Create a table row.
+            var tableHeader = $('<tr>');
+
+            //Loops through each field of the response,
             for (i in response) {
+                //Creates a div and appends two spans to it, one with the field name and the other with the type.
                 const head = $('<div>').addClass('field_header');
                 head.append($('<span>').text(response[i]["Field"]));
-                head.append($('<span>').text(response[i]["Type"]));;
+                head.append($('<span>').text(response[i]["Type"]));
 
+                //Appends it to the table header row with a animation of fadeIn.
                 tableHeader.append($('<th>').append(head).hide().fadeIn(1000));
             }
+            $('#table_fields').append(tableHeader);
         }
-    )
+        )
         .fail(function (error) {
-            const errorMessage = JSON.parse(error.responseText);
-            term.echo('[[;red;]' + errorMessage.error)
+            printErrorOnTerminal(error);
         })
 
+    //Call the post request to post a query to the server.
+    //Post a query to the server, selecting everything from the database.
     postQuery(`SELECT * FROM ${table}`, currentDatabase)
         .done(function (response) {
+            //Get the element with all the table data.
             var tableData = $('#table_data');
 
             // Clear existing content in tableData
             tableData.empty();
 
             for (let i in response) {
+                //Creates a new row for each object on the response.
                 var rowData = $('<tr>');
 
                 for (let key in response[i]) {
-                    // Use response[i][key] to access the value
+                    //Loops through each field on the object and creates a new <td> for it.
                     let value = response[i][key];
                     rowData.append($('<td>').text(value));
                 }
+                //Append everything with a fadeIn animation.
                 tableData.append(rowData.hide().fadeIn(1000));
             }
         })
         .fail(function (error) {
-            const errorMessage = JSON.parse(error.responseText);
-            term.echo('[[;red;]' + errorMessage.error);
+            printErrorOnTerminal(error);
         });
 }
 //Function to post a query to the server.
@@ -170,4 +179,12 @@ function postQuery(query, database) {
 //Function to post a create query to the server.
 function postCreateQuery(database) {
     return $.post('/api/create', { databaseName: database });
+}
+
+//Function to print the error message on the terminal.
+function printErrorOnTerminal(error) {
+
+    //Receives the error message and parse it into a JSON object and print the error on the terminal.
+    const errorMessage = JSON.parse(error.responseText);
+    term.echo('[[;red;]' + errorMessage.error);
 }
