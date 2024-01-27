@@ -1,0 +1,26 @@
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    #leftbar_container {
+        flex-direction: row;
+        width: 100%;
+        height: fit-content;
+        flex-wrap: wrap;
+    }
+
+    #profile_information {
+        flex-grow: 1;
+    }
+
+    #create_db {
+        margin: 0;
+        width: 30%;
+        margin-bottom: 60px;
+        margin-top: 20px;
+    }
+    .database{
+        margin-left: 15px;
+    }
+}

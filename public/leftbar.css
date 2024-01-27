@@ -65,6 +65,7 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -94,6 +95,7 @@ body {
     margin-top: 20px;
     margin-bottom: 80px;
     width: 60%;
+    cursor: pointer;
 }
 
 #create_db div {
